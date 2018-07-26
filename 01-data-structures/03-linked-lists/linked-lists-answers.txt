@@ -1,0 +1,19 @@
+1. What is Spatial Locality and why does it benefit performance?
+
+Spatial locality refers to data elements whose that are relatively close to other storage units. A special case of spatial locality is sequential locality which happens when data elements are arranged linearly, like an array. Locality is a type of predictable behavior that happens within computer systems and can perform very efficiently through techniques such as caching, prefetching for memory, and advanced branch predictors. In spatial locality, if a particular storage unit is accessed, it is likely that nearby memory locations will be accessed soon after. Thus, it is common to attempt to guess the shape and size of the area surrounding the current reference, which can lead to a more beneficial and efficient performance.
+
+2. Compare the performance of an Array to a Linked List using the Benchmark module.
+
+  Compare the time it takes to create a 10,000 item Array to appending 10,000 items to a Linked List.
+    It is significantly faster to create a 10,000 item Array than a 10,000 item Linked List. The Array was created almost instantly and there was a physical noticeable lag for the Linked List to create.
+
+  Compare the time it takes to access the 5000th element of the Array and the 5000th Node in the Linked List.
+    The process for both of these seemed to take a relatively similar amount of time. There was a real time difference however, indicated the Linked List was slower than the Array to access the 5000th item. 
+
+
+  Compare the time it takes to remove the 5000th element from the Array to removing the 5000th Node in the Linked List.
+    Similar to above, the Linked List had a longer real time wait to remove the 5000th element.
+
+
+  In the Array, the 5001st item becomes the 5000th, and so on.
+    The real time to shift everything by 1 takes twice as long in real time than it does to remove the middle element of the Array (5,000th in this case).
