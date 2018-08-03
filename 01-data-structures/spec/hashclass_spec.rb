@@ -1,7 +1,7 @@
 include RSpec
 
-require_relative 'hash_item'
-require_relative 'hashclass'
+require_relative '../04-hashes-part-1/hash_item'
+require_relative '../04-hashes-part-1/hashclass'
 
 RSpec.describe HashClass, type: Class do
   let(:lotr_movies) { HashClass.new(6) }
@@ -49,13 +49,21 @@ RSpec.describe HashClass, type: Class do
       expect(hash.size).to eq 1
     end
 
-    it "resizes the array when a collision occurs and the values do not match" do
-      hash = HashClass.new(1)
-      hash["key"] = "value"
-      expect(hash.size).to eq 1
-      hash["key"] = "different"
-      expect(hash.size).to eq 2
-    end
+    # This is not how hash tables work! Each key has a single correct index.
+    # If I somehow did call this a collision (which it is not), resized,
+    # and shoved it in there. What would you possibly want puts hash["key"] to
+    # print?
+    # Collisions are when different keys hash to the same index. Nothing else.
+    # The word "value" has no place in talking about collisions. Please
+    # fix the vocabulary you are using.
+
+    # it "resizes the array when a collision occurs and the values do not match" do
+    #   hash = HashClass.new(1)
+    #   hash["key"] = "value"
+    #   expect(hash.size).to eq 1
+    #   hash["key"] = "different"
+    #   expect(hash.size).to eq 2
+    # end
 
     it "sets the value of key to value" do
       lotr_movies["The Lord of the Rings: The Fellowship of the Ring"] = "3 hours, 48 minutes"
