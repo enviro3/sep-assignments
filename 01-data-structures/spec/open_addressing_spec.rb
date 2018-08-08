@@ -1,7 +1,9 @@
 include RSpec
 
-require_relative 'node'
-require_relative 'open_addressing'
+require_relative '../05-hashes-part-2/open_addressing/node'
+require_relative '../05-hashes-part-2/open_addressing/open_addressing'
+
+
 
 RSpec.describe OpenAddressing, type: Class do
   let(:star_wars_movies) { OpenAddressing.new(6) }

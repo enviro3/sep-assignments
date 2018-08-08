@@ -1,6 +1,7 @@
 include RSpec
 
-require_relative 'separate_chaining'
+require_relative '../05-hashes-part-2/separate_chaining/linked_list'
+require_relative '../05-hashes-part-2/separate_chaining/separate_chaining'
 
 RSpec.describe SeparateChaining, type: Class do
   let(:star_wars_movies) { SeparateChaining.new(6) }
