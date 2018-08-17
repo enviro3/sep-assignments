@@ -5,24 +5,49 @@ class OpenAddressing
      @items = Array.new(size)
   end
 
-  def []=(key, value)
-    there_is_a_collision = @items[index(key, size)] != nil && @items[index(key,@items.length)].key != key
+  # rubyHash = {}
+  # rubyHash["foo"] = 5
 
+  # myHash = OpenAddressing.new(3)
+  # myHash["foo"] = 5
+  # Case 1. We look it up at expected index, we find nothing, we put it in
+  # Case 2. We look it up at expected index, we find that very key, replace the value
+  # Case 3. We look it up at expected index, we find a different key, collision,
+  #   We look up the next open index,
+  #   if we found one (aka it is not -1 aka @items is fulllllllll), put it in
+  #   else resize and repeat starting at case 1, skipping case 2 next time (though it won't hurt if you don't)
+  def []=(key, value)
+    prospective_index = index(key,size)
+    there_is_a_collision = @items[prospective_index] != nil && @items[prospective_index].key != key
     #When a collision occurs, search for the next available location
     while there_is_a_collision
-      #loop through array to find an index that is nil
-
-      #next_open_index
-
-      # there_is_a_collision = @items[index(key, size)] != nil
+      prospective_index = next_open_index(prospective_index)
+      #if equals -1, then resize
+      if prospective_index == -1
+        resize
+        prospective_index = index(key,size)
+        prospective_index = next_open_index(prospective_index)
+      end
+      there_is_a_collision = @items[prospective_index] != nil
     end
-    # @items[index(key,@items.length)] = HashItem.new(key, value)
-
-  end
+    @items[prospective_index] = Node.new(key, value)
   end
 
   def [](key)
-    @items[index(key,@items.length)].value
+    for i in index(key,size)...size
+      if @items[i] == nil
+        return nil
+      elsif @items[i].key == key
+        return @items[i].value
+      end
+    end
+    for i in 0...index(key,size) do
+      if @items[i] == nil
+        return nil
+      elsif @items[i].key == key
+        return @items[i].value
+      end
+    end
   end
 
   # Returns a unique, deterministically reproducible index into an array
@@ -41,11 +66,17 @@ class OpenAddressing
   # Given an index, find the next open index in @items
   def next_open_index(index)
     #loop through array to find an index that is nil
-    @items.each do |i|
-      if i == nil
-        @items[index(i.key,@items.length)] = HashItem.new(i.key, i.value)
+    for i in index...@items.length do
+      if @items[i] == nil
+        return i
       end
     end
+    for i in 0...index do
+      if @items[i] == nil
+        return i
+      end
+    end
+    return -1
   end
 
   # Simple method to return the number of items in the hash
@@ -61,7 +92,8 @@ class OpenAddressing
     old_items.each do |i|
       if i != nil
         puts i
-        @items[index(i.key,@items.length)] = HashItem.new(i.key, i.value)
+        @items[index(i.key,@items.length)] = Node.new(i.key, i.value)
       end
     end
   end
+end

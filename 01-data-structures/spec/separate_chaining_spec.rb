@@ -34,7 +34,7 @@ RSpec.describe SeparateChaining, type: Class do
       hash = SeparateChaining.new(4)
       hash["key"] = "value"
       expect(hash.size).to eq 4
-      hash["key"] = "second value"
+      hash["yek"] = "second value"
       expect(hash.size).to eq 4
     end
 

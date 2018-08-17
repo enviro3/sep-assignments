@@ -36,7 +36,9 @@ RSpec.describe OpenAddressing, type: Class do
       hash = OpenAddressing.new(4)
       hash["key"] = "value"
       expect(hash.size).to eq 4
-      hash["key"] = "second value"
+      hash["key"] = "second value" # not a collision
+      expect(hash.size).to eq 4
+      hash["yek"] = "second value" # collision
       expect(hash.size).to eq 4
     end
 
@@ -44,11 +46,13 @@ RSpec.describe OpenAddressing, type: Class do
       hash = OpenAddressing.new(1)
       hash["key"] = "value"
       expect(hash.size).to eq 1
-      hash["key"] = "second value"
+      hash["key"] = "second value" # not a collision
+      expect(hash.size).to eq 1
+      hash["yek"] = "second value" # collision
       expect(hash.size).to eq 2
     end
 
-    it "sets the value of key to value" do
+    it "associates key to value" do
       expect(star_wars_movies["Star Wars: The Phantom Menace"]).to eq "Number One"
       expect(star_wars_movies["Star Wars: Attack of the Clones"]).to eq "Number Two"
       expect(star_wars_movies["Star Wars: Revenge of the Sith"]).to eq "Number Three"
