@@ -3,30 +3,38 @@ require 'pp'
 
 class SeparateChaining
   attr_reader :max_load_factor
+  attr_reader :items
 
   def initialize(size)
     @max_load_factor = 0.7
+    @item_count = 0
     @items = Array.new(size)
   end
 
   def []=(key, value) #allows you to assign a value to a key
-    perspective_index = index(key,size)
-    if @items[perspective_index] == nil
-      @items[perspective_index] = LinkedList.new()
+    prospective_index = index(key,size)
+    if @items[prospective_index] == nil
+      @items[prospective_index] = LinkedList.new()
     end
-    @items[perspective_index].add_to_tail(Node.new(key, value))
-
-    #loadfactor in order to resize 
-
+    node = @items[prospective_index].find(key)
+    if node == nil
+      @items[prospective_index].add_to_tail(Node.new(key, value))
+      @item_count += 1
+    else
+      node.value = value
+    end
+    if load_factor >= @max_load_factor
+      resize
+    end
   end
 
   #reads the value associated with the key
   def [](key)
-    perspective_index = index(key,size)
-    if @items[perspective_index] == nil
+    prospective_index = index(key,size)
+    if @items[prospective_index] == nil
       return nil
     end
-    return @items[perspective_index].find(key).value
+    return @items[prospective_index].find(key).value
   end
 
   # Returns a unique, deterministically reproducible index into an array
@@ -45,12 +53,10 @@ class SeparateChaining
   # Calculate the current load factor
   #load factor is number of values it stores divided by number of buckets - k
   def load_factor
-    pp(@items)
-    @items.size
-    puts "I AM HERE"
-    puts @items.size
-    puts "END "
-
+    if @item_count == 0
+      return 0
+    end
+    @item_count.to_f/@items.length.to_f
   end
 
   # Simple method to return the number of items in the hash
@@ -62,10 +68,14 @@ class SeparateChaining
   def resize
     old_items = @items
     @items = Array.new(@items.size*2)
-    old_items.each do |i|
-      if i != nil
-        puts i
-        @items[index(i.key,@items.length)] = Node.new(i.key, i.value)
+    @item_count = 0
+    old_items.each do |linked_list|
+      if linked_list != nil
+        current_node = linked_list.head
+        while current_node != nil
+          self[current_node.key] = current_node.value
+          current_node = current_node.next
+        end
       end
     end
   end

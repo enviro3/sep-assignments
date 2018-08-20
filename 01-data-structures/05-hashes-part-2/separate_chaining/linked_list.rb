@@ -3,9 +3,14 @@ require_relative 'node'
 class LinkedList
   attr_accessor :head
   attr_accessor :tail
+  attr_accessor :size  #every time add/remove, want to implement/decrement, when add item to Hashtable, check size, if 5 more resize
 
+  def initialize()
+    @size = 0
+  end
   # This method creates a new `Node` using `data`, and inserts it at the end of the list.
   def add_to_tail(node)
+    @size += 1
     if @head == nil
       @head = node
     else
@@ -26,7 +31,7 @@ class LinkedList
   # Returns the node that matches the key
   def find(key)
     current_node = @head
-    while current_node.next != nil
+    while current_node != nil
       if current_node.key == key
         return current_node
       end
@@ -52,14 +57,17 @@ class LinkedList
     elsif @head == @tail
       @head = nil
       @tail = nil
+      @size -= 1
     elsif node == @head
       @head = @head.next
+      @size -= 1
     else
       current_node = @head
       while current_node.next != node
         current_node = current_node.next
       end
       current_node.next = current_node.next.next
+      @size -= 1
       if node == @tail
         @tail = current_node
       end
@@ -71,6 +79,7 @@ class LinkedList
     previous_head = @head
     @head = node
     @head.next = previous_head
+    @size += 1
   end
 
   # This method removes and returns the first node in the Linked List and must set Linked List's head to the second node.
