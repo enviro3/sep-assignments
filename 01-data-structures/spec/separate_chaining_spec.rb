@@ -77,6 +77,15 @@ RSpec.describe SeparateChaining, type: Class do
     end
   end
 
+  describe "#print_current_state" do
+    it "presents the location and value of each entry"
+    end
+
+    it "prints load factor"
+    end
+
+  end
+
   describe "#resize" do
     it "doubles the size of the array when invoked" do
       movies = SeparateChaining.new(6)

@@ -64,6 +64,13 @@ class SeparateChaining
     return @items.length
   end
 
+  def print_current_state
+    #present location and value of each entry
+    pp @items
+    #print load factor
+    puts "Load factor: #{load_factor}"
+  end
+
   # Resize the hash
   def resize
     old_items = @items

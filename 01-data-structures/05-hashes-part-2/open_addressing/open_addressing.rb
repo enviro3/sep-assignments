@@ -1,4 +1,5 @@
 require_relative 'node'
+require 'pp'
 
 class OpenAddressing
   def initialize(size)
@@ -77,6 +78,12 @@ class OpenAddressing
       end
     end
     return -1
+  end
+
+  def print_current_address_state
+    #present location (index) and value of each entry
+    pp @items 
+    #
   end
 
   # Simple method to return the number of items in the hash
