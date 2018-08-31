@@ -1,6 +1,7 @@
 include RSpec
 
-require_relative 'binary_search_tree'
+require_relative '../06-trees/binary_tree/binary_search_tree'
+require_relative '../06-trees/binary_tree/node'
 
 RSpec.describe BinarySearchTree, type: Class do
   let (:root) { Node.new("The Matrix", 87) }
