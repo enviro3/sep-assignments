@@ -1,6 +1,6 @@
 require_relative 'node'
 
-class BinarySearchTree
+class MinHeap
   attr_reader :root
 
   def initialize(root)

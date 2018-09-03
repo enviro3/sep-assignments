@@ -1,13 +1,13 @@
 include RSpec
 
 require 'pp'
-require_relative '../06-trees/binary_tree/binary_search_tree'
-require_relative '../06-trees/binary_tree/node'
+require_relative '../06-trees/min_heap/min_heap'
+require_relative '../06-trees/min_heap/node'
 
-RSpec.describe BinarySearchTree, type: Class do
+RSpec.describe MinHeap, type: Class do
   let (:root) { Node.new("The Matrix", 87) }
 
-  let (:tree) { BinarySearchTree.new(root) }
+  let (:tree) { MinHeap.new(root) }
   let (:pacific_rim) { Node.new("Pacific Rim", 72) }
   let (:braveheart) { Node.new("Braveheart", 78) }
   let (:jedi) { Node.new("Star Wars: Return of the Jedi", 80) }
