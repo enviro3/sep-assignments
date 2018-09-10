@@ -1,0 +1,15 @@
+Print both Trees to the console and compare the difference between your Binary Search Tree and your Heap.
+  The Binary Search Tree gets printed out in consecutive order from 1 to 50 when 50 items are put in. The Heap differs however, it starts with the smallest number and does increase but all the numbers aren't consecutive. The numbers are from smallest to largest but in different branches of the tree. The Heap starts printing items on the left and goes down the branch. Then once it reaches the bottom it goes back up to the top to print the next branch starting with the minimum. This is why the printed list has numbers in groups rather than all 50 being consecutive.
+
+How much time does an average insertion consume in the Binary Search Tree compared to the Heap?
+  In our case, because the Binary Search Tree is not balanced, the Heap is about 100x faster.
+
+How much time does finding 50000 in the Binary Search Tree consume compared to the Heap?
+  The Binary Search Tree is a couple orders of magnitude faster than the Heap.
+
+How much time does the average deletion consume in a Binary Search Tree compared to the Heap?
+  The Binary Search Tree is a couple orders of magnitude faster than the Heap.
+When would you use a Binary Search Tree and why?
+  I would use a Binary Search Tree if I want to find all the values greater and smaller than a particular value.
+When would you use an Heap and why?
+  I would use a heap for schedulers and priority queues.

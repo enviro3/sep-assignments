@@ -1,159 +1,123 @@
-require_relative 'node'
+require_relative 'movie_rating'
 
 class MinHeap
-  attr_reader :root
+  attr_reader :heap
 
-  def initialize(root)
-    @root = root #root is a node
+  def initialize(first_movie_rating)
+    @heap = [first_movie_rating] #first_movie_rating is a MovieRating
   end
 
-  def insert(root, node)
-    if root == nil
-      @root = node
-    elsif root.rating <= node.rating
-      if root.right == nil
-        root.right = node
-      else
-        insert(root.right, node)
-      end
-
-    elsif root.rating > node.rating
-      if root.left == nil
-        root.left = node
-      else
-        insert(root.left, node)
-      end
-    end
+  def findLeftIndex(my_index)
+    return (my_index * 2) + 1
   end
 
-  # Recursive Depth First Search
-  def find(root, data)
-    return find_with_parent(root, data, nil)[0]
+  def findRightIndex(my_index)
+    return (my_index * 2) + 2
   end
 
-  # Recursive Depth First Search
-  def find_with_parent(current_node, data, parent)
-    if current_node == nil
-      return nil, nil
-    end
-    if current_node.title == data
-      return current_node, parent
-    end
-    if current_node.left != nil
-      left_branch_node_and_parent = find_with_parent(current_node.left, data, current_node)
-      if left_branch_node_and_parent[0] != nil
-        return left_branch_node_and_parent
-      end
-    end
-    if current_node.right != nil
-      right_branch_node_and_parent = find_with_parent(current_node.right, data, current_node)
-      if right_branch_node_and_parent[0] != nil
-        return right_branch_node_and_parent
-      end
-    end
-    return nil, nil
+  def findParent(my_index)
+    return (my_index - 1) / 2
   end
 
-  def delete(root, data) #root is a node, not @root
-    node_and_parent = find_with_parent(root, data, nil) #node_and_parents looks like this [node, parent]
-    node = node_and_parent[0]
-    parent = node_and_parent[1]
-    if node == nil
-      return
-    elsif node.left == nil && node.right == nil
-      if parent == nil
-        @root = nil
-        return
-      end
-      if parent.right == node
-        parent.right = nil
-        return
-      end
-      if parent.left == node
-        parent.left = nil
-        return
-      end
-    end
+  def switchValuesAtIndices(index1,index2)
+    temp = @heap[index1]
+    @heap[index1] = @heap[index2]
+    @heap[index2] = temp
+  end
 
-    #case when there is one child
-    if node.left != nil && node.right == nil
-      #remove node and replace it with its child
-      if parent == nil
-        @root = node.left
-        return
-      end
-      if parent.right == node
-        parent.right = node.left
-        return
-      end
-      if parent.left == node
-        parent.left = node.left
-        return
-      end
-    end
+  def insert(movie_rating)
+    @heap.push(movie_rating)
+    movie_rating_index = @heap.length() - 1
+    fixUp(movie_rating_index)
+  end
 
-    if node.left == nil && node.right != nil
-      if parent == nil
-        @root = node.right
-        return
-      end
-      if parent.right == node
-        parent.right = node.right
-        return
-      end
-      if parent.left == node
-        parent.left = node.right
-        return
-      end
-    end
-
-    #case when there are two children
-    there_are_two_children = node.left != nil && node.right != nil
-    if there_are_two_children
-      min_node_and_parent = find_min_node(node.right, node)
-      min_node = min_node_and_parent[0]
-      min_parent = min_node_and_parent[1]
-      if parent == nil
-        @root = min_node
-      elsif parent.right == node
-        parent.right = min_node
-      elsif parent.left == node
-        parent.left = min_node
-      end
-      min_parent.left = min_node.right
-      if min_node.left != node.left
-        min_node.left = node.left
-      end
-      if min_node != node.right
-        min_node.right = node.right
-      end
+  def fixUp(movie_rating_index)
+    movie_rating = @heap[movie_rating_index]
+    parent_index = findParent(movie_rating_index)
+    if parent_index < 0
       return
     end
-  end
-
-  def find_min_node(node, parent)
-    while node.left != nil
-      parent = node
-      node = node.left
+    parent_value = @heap[parent_index]
+    if movie_rating.rating < parent_value.rating
+      switchValuesAtIndices(movie_rating_index, parent_index)
+      fixUp(parent_index)
     end
-    return node, parent
   end
 
-  # Recursive Breadth First Search
-  def printf(children=nil)
-    tree_array = []
-    tree_array.push(@root)
-    while tree_array.length != 0
-      puts tree_array[0].title.to_s + ": " + tree_array[0].rating.to_s
-      if tree_array[0].left != nil
-        tree_array.push(tree_array[0].left)
-      end
+  def fixDown(movie_rating_index)
+    right_child_index = findRightIndex(movie_rating_index)
+    left_child_index = findLeftIndex(movie_rating_index)
 
-      if tree_array[0].right != nil
-        tree_array.push(tree_array[0].right)
-      end
-      tree_array.shift()
+    #case there are no children
+    if right_child_index >= @heap.length && left_child_index >= @heap.length
+      return
     end
 
+    #case there is only one left child
+    if left_child_index < @heap.length && right_child_index >= @heap.length
+      if @heap[movie_rating_index].rating > @heap[left_child_index].rating
+        switchValuesAtIndices(movie_rating_index, left_child_index)
+        fixDown(left_child_index)
+      end
+    end
+
+    #case there are two children
+    if right_child_index < @heap.length && left_child_index < @heap.length
+      # TODO, irrelevant if children have children
+      if @heap[right_child_index].rating < @heap[left_child_index].rating
+        if @heap[right_child_index].rating < @heap[movie_rating_index].rating
+          switchValuesAtIndices(movie_rating_index, right_child_index)
+          fixDown(right_child_index)
+        end
+      elsif @heap[right_child_index].rating >= @heap[left_child_index].rating
+        if @heap[left_child_index].rating < @heap[movie_rating_index].rating
+          switchValuesAtIndices(movie_rating_index, left_child_index)
+          fixDown(left_child_index)
+        end
+      end
+    end
   end
+
+  def delete_minimum()
+    movie_rating_index = @heap.length() - 1
+    if @heap == nil
+      return nil
+    end
+    if @heap.length == 0
+      return nil
+    end
+    @heap[0] = @heap[@heap.length - 1]
+    #@heap.index(movie_rating)
+    @heap.pop()
+    fixDown(0)
+  end
+
+  def find(movie_rating)
+    #find MovieRating that matches the data
+    if movie_rating == nil
+      return nil
+    end
+    for current_movie_rating in @heap do
+      if current_movie_rating.title == movie_rating.title
+        return current_movie_rating
+      end
+    end
+    return nil
+  end
+
+  def printIndex(index)
+    #case where index is invalid
+    if index >= @heap.length
+      return
+    end
+    puts @heap[index].title + ': ' + @heap[index].rating.to_s
+    printIndex(findLeftIndex(index))
+    printIndex(findRightIndex(index))
+
+  end
+
+  def print()
+    printIndex(0)
+  end
+
 end
