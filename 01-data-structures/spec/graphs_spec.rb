@@ -2,7 +2,7 @@ include RSpec
 
 require 'pp'
 require_relative '../07-graphs/actor_with_distance'
-require_relative '../07-trees/find_kevin_bacon'
+require_relative '../07-graphs/find_kevin_bacon'
 
 RSpec.describe ActorWithDistance, type: Class do
   let(:actors_with_distance) {{
@@ -25,14 +25,14 @@ RSpec.describe ActorWithDistance, type: Class do
   end
 
   describe "#directly_connected_to_kevin?" do
-    it "returns the first person in the line" do
+    it "directly connect to Kevin Bacon" do
       expect(actors_with_distance).to have_value "Kevin_Bacon"
     end
   end
 
   describe "#find_kevin_bacon" do
     it "returns list of film titles that connect it to Kevin Bacon" do
-      expect(line.middle).to eq "Ted"
+      # example to be updated: expect(line.middle).to eq "Ted"
     end
   end
 

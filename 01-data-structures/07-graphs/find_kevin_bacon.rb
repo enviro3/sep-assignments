@@ -1,4 +1,3 @@
-require_relative 'min_heap'
 require_relative 'actors_with_distance'
 
 Kevin_Bacon =  "Kevin Bacon"
@@ -36,7 +35,7 @@ def find_kevin_bacon(starting_node) #Breath first search, check layer by layer
   start_node.directly_connected_to_kevin?()
 
   @actors_with_distance.each do |actor|
-    actor[0..actor.length]include?(Kevin_Bacon)
+    actor[0..actor.length].include?(Kevin_Bacon)
   end
 
 
