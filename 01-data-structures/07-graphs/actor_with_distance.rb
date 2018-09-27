@@ -1,6 +1,6 @@
 class ActorWithDistance
   attr_accessor :actor_name
-  attr_accessor :distance_from_kevin
+  attr_accessor :adjacent_actors
 
   def initialize(actor_name, adjacent_actors)
     @actor_name = actor_name
@@ -8,6 +8,8 @@ class ActorWithDistance
   end
 
   def directly_connected_to_kevin?
-
+    if actors_with_distance.include?(Kevin_Bacon)
+      return true
+    end
   end
 end
