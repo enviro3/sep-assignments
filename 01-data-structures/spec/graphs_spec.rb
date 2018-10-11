@@ -5,17 +5,7 @@ require_relative '../07-graphs/actor_with_distance'
 require_relative '../07-graphs/find_kevin_bacon'
 
 RSpec.describe ActorWithDistance, type: Class do
-  let(:actors_with_distance) {{
-    "Kevin Bacon": ActorWithDistance.new(Kevin_Bacon, [Lori_Singer, John_Lithgow, Dianne_Wiest, Chris_Penn, Sarah_Jessica_Parker]),
-    "Lori Singer": ActorWithDistance.new(Lori_Singer, [Kevin_Bacon, John_Lithgow, Dianne_Wiest]),
-    "John Lithgow": ActorWithDistance.new(John_Lithgow,[Keven_Bacon, Chris_Penn, Sarah_Jessica_Parker]),
-    "Dianne Wiest": ActorWithDistance.new(Dianne_Wiest,[Keven_Bacon, Lori_Singer, Coolbear]),
-    "Chris Penn": ActorWithDistance.new(Chris_Penn,[Keven_Bacon, Moofus, John_Lithgow]),
-    "Sarah Jessica Parker": ActorWithDistance.new(Sarah_Jessica_Parker,[Keven_Bacon, John_Lithgow]),
-    "Moofus": ActorWithDistance.new(Moofus,[Chris_Penn]),
-    "Kailey": ActorWithDistance.new(Kailey,[Coolbear]),
-    "Coolbear": ActorWithDistance.new(Coolbear,[Kailey, Dianne_Wiest])
-   }}
+  let(:find_kevin_bacon) {{}}
 
   describe "#initialize" do
     it "instantiates the actors and their related actors" do
@@ -31,7 +21,7 @@ RSpec.describe ActorWithDistance, type: Class do
   end
 
   describe "#find_kevin_bacon" do
-    it "returns list of film titles that connect it to Kevin Bacon" do
+    it "returns list of film titles that connect starting node to Kevin Bacon" do
       # example to be updated: expect(line.middle).to eq "Ted"
     end
   end
